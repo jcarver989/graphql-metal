@@ -1,5 +1,6 @@
 import { Context } from "aws-lambda"
-import { createHandler, LambdaEvent, LambdaResponse } from "../src/index"
+import { event, LambdaEvent, LambdaResponse } from "../src/awsLambda"
+import { createHandler } from "../src/index"
 
 let posts = [{ id: "1", content: "Hello World!" }]
 
@@ -7,6 +8,7 @@ const handler = createHandler({
   typeDefs: `
       type Query {
           getPost(id: ID!): Post!
+          goBoom: Post!
       }
 
       type Mutation {
@@ -26,6 +28,9 @@ const handler = createHandler({
     Query: {
       getPost: (_, args) => {
         return posts.find(_ => _.id === args.id)
+      },
+      goBoom: _ => {
+        throw new Error("BOOM!")
       }
     },
 
@@ -48,7 +53,7 @@ describe("createHandler", () => {
 
   it("should execute a query with a parameter", async () => {
     const result = await run(
-      aLambdaEvent({
+      event({
         query: `
             query getPostQuery($id: ID!) {
                 getPost(id: $id) {
@@ -65,7 +70,7 @@ describe("createHandler", () => {
 
   it("should execute a mutation", async () => {
     const result = await run(
-      aLambdaEvent({
+      event({
         query: `
             mutation createPostMutation($input: CreatePostInput!) {
                 createPost(input: $input) {
@@ -84,6 +89,39 @@ describe("createHandler", () => {
       { id: "2", content: "Post #2!" }
     ])
   })
+
+  it("should execute a query that throws an error and return a response", async () => {
+    const result = await run(
+      event({
+        query: `
+            query goBoomQuery {
+                goBoom {
+                    id
+                }
+            }
+          `
+      })
+    )
+
+    assertResponse(result, 200, {
+      data: null,
+      errors: [
+        {
+          message: "BOOM!",
+
+          // TODO: cleanup this assertion to avoid flaky tests
+          locations: [
+            {
+              line: 3,
+              column: 17
+            }
+          ],
+
+          path: ["goBoom"]
+        }
+      ]
+    })
+  })
 })
 
 function assertResponse<T extends {}>(
@@ -101,16 +139,4 @@ function assertResponse<T extends {}>(
 
 async function run(event: LambdaEvent): Promise<LambdaResponse | void> {
   return handler(event, {} as Context, event => {})
-}
-
-function aLambdaEvent(params: { query: string; variables: Record<string, any> }): LambdaEvent {
-  const { query, variables } = params
-  return {
-    body: JSON.stringify({
-      query,
-      variables
-    }),
-    headers: {},
-    httpMethod: "POST"
-  }
 }
