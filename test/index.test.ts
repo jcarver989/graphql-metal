@@ -128,7 +128,7 @@ function assertResponse<T extends {}>(
   result: LambdaResponse | void,
   statusCode: number,
   body: T,
-  headers: Record<string, string> = { "Content-Type": "application/json" }
+  headers: Record<string, string> = { "content-type": "application/json" }
 ): void {
   expect(result).toEqual({
     statusCode,
@@ -138,5 +138,5 @@ function assertResponse<T extends {}>(
 }
 
 async function run(event: LambdaEvent): Promise<LambdaResponse | void> {
-  return handler(event, {} as Context, event => {})
+  return handler(event, {} as Context, () => {})
 }

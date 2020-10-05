@@ -44,7 +44,7 @@ export function event(params: {
 export function response<T extends {}>(statusCode: number, body: T, headers?: Record<string, string>): LambdaResponse {
   return {
     statusCode,
-    headers: { "Content-Type": "application/json", ...headers },
+    headers: { "content-type": "application/json", ...headers },
     body: JSON.stringify(body)
   }
 }
