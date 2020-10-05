@@ -46,7 +46,7 @@ const resolvers =  {
 ### Then, create and export a Lambda handler
 
 ```TypeScript
-import { createHandler } from "./index"
+import { createHandler } from "graphql-metal"
 
 export const handler = createHandler({
   typeDefs,
@@ -59,7 +59,7 @@ export const handler = createHandler({
 ### And test your function like this:
 
 ```TypeScript
-import { event } from "./index"
+import { event } from "graphql-metal"
 import { Context } from "aws-lambda"
 
 it("should get a post by id", async () => {
