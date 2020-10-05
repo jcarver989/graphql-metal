@@ -7,7 +7,7 @@ import { IResolvers } from "graphql-tools"
  *  graphql-jit will be attempted first. And if the query can't be compiled for some reason,
  *  we'll fall back to graphql-js
  *
- *  @param schema -- the parsed sdl schema e.g loadSchemaSync("foo.graphql") (from "graphql-tools")
+ *  @param schema -- the (executable) graphQL schema
  *  @param resolvers -- the graphQL resolver map
  *  @param document -- the parsed graphQL query or mutation, e.g. parse(query) (from "graphql")
  */
