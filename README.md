@@ -1,7 +1,7 @@
 # GraphQL Metal
 
-An experimental repo to prototype running a (node.js) graphQL "server" on AWS Lambda as close to the "metal" as possible
-(or at least closer than Apollo :)).
+**GraphQL Metal** is an experimental prototype that runs a (node.js) graphQL "server" on AWS Lambda as close to the "metal" as possible
+(or at least closer to the metal than apollo-server).
 
 GraphQL Metal uses [graphql-jit](https://github.com/zalando-incubator/graphql-jit#readme) and falls back to
 [graphql-js](https://github.com/graphql/graphql-js) if the query can't be compiled.
@@ -115,6 +115,6 @@ const request: Lambda.Types.InvocationRequest = {
   Payload: JSON.stringify(payload)
 }
 
-const lambda = new Lambda({ region: "us-west-2", credentials })
+const lambda = new Lambda({ region: "us-east-1" })
 const { StatusCode, FunctionError, Payload } = await lambda.invoke(request)
 ```
