@@ -84,3 +84,37 @@ it("should get a post by id", async () => {
   })
 })
 ```
+
+## Notes on Deployment
+
+Generally you'll want to connect your shiny new Lambda handler to API gateway. But
+you can also directly invoke your Lambda handler via the AWS SDK like so:
+
+```TypeScript
+import { Lambda } from "aws-sdk"
+
+const query = `
+    query getPostQuery($id: ID!) {
+        getPost(id: $id) {
+            id
+        }
+    }
+`
+
+const variables = variables: { id: "1" }
+
+const payload = {
+  httpMethod: "POST",
+  headers,
+  body: JSON.stringify({ query, variables })
+}
+
+const request: Lambda.Types.InvocationRequest = {
+  FunctionName: "foo-function",
+  InvocationType: "RequestResponse",
+  Payload: JSON.stringify(payload)
+}
+
+const lambda = new Lambda({ region: "us-west-2", credentials })
+const { StatusCode, FunctionError, Payload } = await lambda.invoke(request)
+```
