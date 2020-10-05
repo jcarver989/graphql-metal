@@ -62,7 +62,7 @@ export const handler = createHandler({
 import { event } from "./index"
 import { Context } from "aws-lambda"
 
-it("should get a post by id", () => {
+it("should get a post by id", async () => {
   const result = await handler(event({
     query: `
         query getPostQuery($id: ID!) {
@@ -72,7 +72,10 @@ it("should get a post by id", () => {
         }
       `,
     variables: { id: "1" }
-}), {} as Context, () => {})
+}),
+    {} as Context, // fake Lambda context
+    () => {}       // fake Lambda "callback"
+)
 
   expect(result).toEqual({
     statusCode: 200,
