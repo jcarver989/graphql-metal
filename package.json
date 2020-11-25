@@ -1,6 +1,6 @@
 {
   "name": "graphql-metal",
-  "version": "0.0.1",
+  "version": "0.0.2",
   "main": "dist/index.js",
   "types": "dist/index.d.ts",
   "scripts": {
@@ -18,7 +18,8 @@
   "dependencies": {
     "graphql": "^15.3.0",
     "graphql-jit": "^0.4.3",
-    "graphql-tools": "^6.2.4"
+    "graphql-tools": "^6.2.4",
+    "tiny-lru": "^7.0.6"
   },
   "license": "Apache 2.0"
 }
