@@ -1,19 +1,19 @@
-/** The incoming Lambda event */
-export type LambdaEvent = {
+/** An incoming Lambda event */
+export interface LambdaEvent {
   httpMethod: "POST" | "GET"
   headers: Record<string, string>
   body: string
 }
 
 /** The result of JSON.parse(lambdaEvent.body) */
-export type ParsedLambdaEventBody = {
+export interface GraphQLRequest {
   query: string
   variables: Record<string, any>
   operationName?: string
 }
 
 /** The Lambda's response */
-export type LambdaResponse = {
+export interface LambdaResponse {
   statusCode: number // HTTP status code
   headers: Record<string, string>
   body: string // JSON
@@ -27,7 +27,7 @@ export function event(params: {
   headers?: Record<string, string>
 }): LambdaEvent {
   const { query, variables = {}, operationName, headers = {} } = params
-  const body: ParsedLambdaEventBody = {
+  const body: GraphQLRequest = {
     query,
     variables,
     operationName
