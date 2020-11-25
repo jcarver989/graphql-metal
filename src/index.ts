@@ -3,6 +3,7 @@ import { IResolvers, makeExecutableSchema } from "graphql-tools"
 import { GraphQLExecutor } from "./GraphQLExecutor"
 import { GraphQLQueryCache } from "./GraphQLQueryCache"
 import { GraphQLRequest, LambdaEvent, LambdaResponse, response } from "./lambda"
+export { GraphQLQueryCache } from "./GraphQLQueryCache"
 
 /** Creates a Lambda Handler that returns HTTP responses to graphQL queries/mutations
  *
