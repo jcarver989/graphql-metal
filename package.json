@@ -1,12 +1,16 @@
 {
   "name": "graphql-metal",
-  "version": "0.0.3",
+  "version": "0.0.4",
   "main": "dist/index.js",
   "types": "dist/index.d.ts",
   "scripts": {
     "build": "tsc",
     "test": "jest"
   },
+  "files": [
+    "./dist",
+    "./src"
+  ],
   "devDependencies": {
     "@types/aws-lambda": "^8.10.64",
     "@types/jest": "^26.0.15",
