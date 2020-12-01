@@ -6,6 +6,7 @@
     "outDir": "./dist",
     "strict": true,
     "declaration": true,
+    "declarationMap": true,
     "moduleResolution": "node",
     "esModuleInterop": true,
     "skipLibCheck": true,
