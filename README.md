@@ -10,9 +10,10 @@ The only runtime dependencies of this package are:
 
 ```json
 {
-  "graphql": "^15.3.0",
+  "graphql": "^15.4.0",
   "graphql-jit": "^0.4.3",
-  "graphql-tools": "^6.2.4"
+  "graphql-tools": "^7.0.1",
+  "tiny-lru": "^7.0.6"
 }
 ```
 
@@ -53,6 +54,20 @@ export const handler = createHandler({
   resolvers,
   createContext: event => ({ authHeader: event.headers["authorization"] }),
   createHeaders: event => ({ "accesss-control-allow-origin": "*" })
+})
+```
+
+You can configure caching and jit settings like so:
+
+```TypeScript
+import { createHandler, GraphQLQueryCache } from "graphql-metal"
+export const handler = createHandler({
+  typeDefs,
+  resolvers,
+  jitThreshold: 2 // cache + jit a query as soon as we see it 2x
+  queryCache: new GraphQLQueryCache({ maxSize: 10, ttlInMs: 30 * 60 * 1000 })
+  createContext: event => ({ authHeader: event.headers["authorization"] }),
+  createHeaders: event => ({ "accesss-control-allow-origin": "*" }),
 })
 ```
 
